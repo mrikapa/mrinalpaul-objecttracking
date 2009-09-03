@@ -1,0 +1,10 @@
+- To initially set up the repositroy, sign up at Google Code
+- Download the empty mercurial repository using: hg clone https://wsu-igvc.googlecode.com/hg/ wsu-igvc
+- Copy code to the new directory
+- Add the new files by doing hg add .
+- Commit any changes by doing hg commit -m "change notes"
+- Upload to Google by doing hg push
+
+- Download the latest by doing hg pull
+- Apply the changes to your working copy by doing hg update
+
