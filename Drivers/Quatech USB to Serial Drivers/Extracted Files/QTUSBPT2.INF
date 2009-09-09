@@ -1,0 +1,151 @@
+;QTUSBPT2.INF
+;Child port installation file for Quatech USB multiport serial devices
+;Copyright (c) 2001-2006 Quatech, Incorporated
+;  DSU-100
+;  DSU-200/300
+;  QSU-100
+;  QSU-200/300
+;  SSU-100
+;  ESU-100
+;  ESU-200/300
+;  HSU-100
+;  HSU-200/300
+
+[Version]
+signature="$WINDOWS NT$"
+Class=Ports
+ClassGuid={4D36E978-E325-11CE-BFC1-08002BE10318}
+Provider=%Provider%
+DriverVer=02/22/2006,5.90
+CatalogFile=qtusbpt2.cat
+
+;----------------------------------------------------------
+; Class "Ports" Section
+;
+; If there are builtin serial ports on the computer, Windows will have already
+; installed this class.  This section guards against the possibility that the
+; class isn't already present.  We use the standard msports.dll class installer DLL.
+;
+;
+;[ClassInstall]
+;AddReg=PortsClass.AddReg
+;
+;[PortsClass.AddReg]
+;HKR,,,,%PortsClassName%
+;
+;[ClassInstall32.NT]
+;AddReg=PortsClass.NT.AddReg
+;
+;[PortsClass.NT.AddReg]
+;HKR,,,,%PortsClassName%
+;HKR,,Icon,,"-23"
+;HKR,,Installer32,,"MsPorts.Dll,PortsClassInstaller"
+;
+;----------------------------------------------------------
+; Manufacturer Section
+[Manufacturer]
+%Provider%=QTMfg
+
+; Manufacturer Name Section
+[QTMfg]
+%PortConfig.DeviceDesc%=Port, QT_USB_SERIAL
+
+[ControlFlags]
+ExcludeFromSelect=QT_USB_SERIAL
+
+;------------------------------------------------------------------------
+; Files sections
+
+[SourceDisksNames]
+1 = %DiskName%,,,""
+
+[SourceDisksFiles]
+qtucomco.dll = 1,,
+
+[DestinationDirs]
+DefaultDestDir      = 12
+ClassDLLFilesNT     = 11
+
+[ClassDLLFilesNT]
+;qtucomco.dll		;This file is copied by the box INF.
+
+;************************************************************************
+; START Windows 98 Install
+
+[Port]
+AddReg=Port.Reg
+
+[Port.Reg]
+HKR,,ConfigDialog,,qtusbcom.dll
+HKR,,DCB,3,1C,00,00,00,80,25,00,00,11,33,00,00,00,00,0a,00,0a,00,08,00,00,11,13,00,00,00
+HKR,,DevLoader,,*vcomm
+HKR,,EnumPropPages,,"qtusbcom.dll,EnumPropPages"
+HKR,,PortDriver,,serqtusb.vxd
+HKR,,PortSubClass,1,01
+
+; END Windows 98 Install
+;************************************************************************
+
+;************************************************************************
+; START Windows 2000 Install
+
+[Port.NT]
+AddReg=Port.NT.AddReg
+SyssetupPnPFlags = 1
+
+[Port.NT.AddReg]
+HKR,,PortSubClass,1,01
+HKR,,EnumPropPages32,,"qtucompp.dll,SerialPortPropPageProvider"
+
+; The serenum filter driver causes boot-time problems on some
+; computers.  It is disabled by default.  If you require
+; plug-and-play enumeration of serial devices such as external
+; modems, remove the leading semicolons from the next five lines
+; before installing the USB device.  See also the "Services" section below.
+;[Port.NT.HW]
+;AddReg=Port.NT.HW.AddReg
+;
+;[Port.NT.HW.AddReg]
+;HKR,,"UpperFilters",0x00010000,"serenum"
+
+;------------------------------
+; Windows 2000 Coinstaller section
+
+[Port.NT.CoInstallers]
+AddReg=Port.NT.CoInst.AddReg
+CopyFiles=ClassDLLFilesNT
+
+[Port.NT.CoInst.AddReg]
+HKR,,CoInstallers32,0x00010000,"qtucomco.dll,USBPortCoInstaller"
+
+;------------------------------
+; Windows 2000 Services section
+
+[Port.NT.Services]
+AddService = qtucompt, 0x00000002, USBToSerialPortService
+
+; To enable serenum (see above), remove the leading semicolons
+; from the next two lines before installing the SDS.
+;Include = msports.inf
+;Needs = SerialEnumerator.NT.Services
+
+[USBToSerialPortService]
+DisplayName    = %qt2kusbp.SVCDESC%
+ServiceType     = 1             ; SERVICE_KERNEL_DRIVER
+StartType       = 3             ; SERVICE_DEMAND_START
+ErrorControl    = 1             ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\qtucompt.sys
+
+; END Windows 2000 Install
+;************************************************************************
+
+;------------------------------------------------------------------------
+; Strings section
+
+[Strings]
+Provider="Quatech, Incorporated"
+DiskName="USB-To-Serial Adapters Drivers"
+
+PortConfig.DeviceDesc="USB Serial Port"
+qt2kusbp.SVCDESC="USB-to-Serial Port Driver"
+PortsClassName = "Ports (COM & LPT)"

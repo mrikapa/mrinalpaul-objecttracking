@@ -1,0 +1,253 @@
+;QTUSBBX2.INF
+;Main installation file for Quatech USB multiport serial devices
+;Copyright (c) 2001-2006 Quatech, Incorporated
+;  DSU-100
+;  DSU-200/300
+;  QSU-100
+;  QSU-200/300
+;  SSU-100
+;  SSU-200/300 (future)
+;  ESU-100
+;  ESU-200/300
+;  HSU-100
+;  HSU-200/300
+
+[Version]
+Signature="$WINDOWS NT$"
+Class=MultiPortSerial
+ClassGuid={50906CB8-BA12-11D1-BF5D-0000F805F530}
+Provider=%Provider%
+DriverVer=02/22/2006,5.90
+CatalogFile=qtusbbx2.cat
+
+;------------------------------------------------------------------------
+; Class Section
+
+; In Device Manager, these devices are listed under "Multi-port serial devices".
+; The individual ports are listed under "Ports" (handled by QTUSBPT2.INF).
+; This section normally doesn't run.  It's left here just in case the
+; Multi-port serial devices class somehow hasn't been installed on the system.
+
+[ClassInstall]
+AddReg=Class.AddReg
+
+[Class.AddReg]
+HKR,,,,%ClassDesc%
+HKR,,Icon,,-20
+
+[ClassInstall32.NT]
+AddReg=Class.NT.AddReg
+
+[Class.NT.AddReg]
+HKR,,,,%ClassDesc%
+HKR,,NextUSBtoSerial,0x00010001,1
+HKR,,Icon,,-20
+
+;------------------------------------------------------------------------
+
+; Manufacturer Section
+[Manufacturer]
+%Provider%=QTMfg
+
+; Manufacturer Name Section
+[QTMfg]
+%SSU100.DeviceDesc%  = USBToSerial,USB\VID_061D&PID_C020
+%SSU200.DeviceDesc%  = USBToSerial,USB\VID_061D&PID_C030
+%DSU100.DeviceDesc%  = USBToSerial,USB\VID_061D&PID_C040
+%DSU200.DeviceDesc%  = USBToSerial,USB\VID_061D&PID_C050
+%QSU100.DeviceDesc%  = USBToSerial,USB\VID_061D&PID_C060
+%QSU200.DeviceDesc%  = USBToSerial,USB\VID_061D&PID_C070
+%ESU100A.DeviceDesc% = USBToSerial,USB\VID_061D&PID_C080
+%ESU100B.DeviceDesc% = USBToSerial,USB\VID_061D&PID_C081
+%HSU100A.DeviceDesc% = USBToSerial,USB\VID_061D&PID_C090
+%HSU100B.DeviceDesc% = USBToSerial,USB\VID_061D&PID_C091
+%HSU100C.DeviceDesc% = USBToSerial,USB\VID_061D&PID_C092
+%HSU100D.DeviceDesc% = USBToSerial,USB\VID_061D&PID_C093
+%ESU200A.DeviceDesc% = USBToSerial,USB\VID_061D&PID_C0A0
+%ESU200B.DeviceDesc% = USBToSerial,USB\VID_061D&PID_C0A1
+%HSU200A.DeviceDesc% = USBToSerial,USB\VID_061D&PID_C0B0
+%HSU200B.DeviceDesc% = USBToSerial,USB\VID_061D&PID_C0B1
+%HSU200C.DeviceDesc% = USBToSerial,USB\VID_061D&PID_C0B2
+%HSU200D.DeviceDesc% = USBToSerial,USB\VID_061D&PID_C0B3
+
+
+[ControlFlags]
+ExcludeFromSelect = USB\VID_061D&PID_C020
+ExcludeFromSelect = USB\VID_061D&PID_C030
+ExcludeFromSelect = USB\VID_061D&PID_C040
+ExcludeFromSelect = USB\VID_061D&PID_C050
+ExcludeFromSelect = USB\VID_061D&PID_C060
+ExcludeFromSelect = USB\VID_061D&PID_C070
+ExcludeFromSelect = USB\VID_061D&PID_C080
+ExcludeFromSelect = USB\VID_061D&PID_C081
+ExcludeFromSelect = USB\VID_061D&PID_C090
+ExcludeFromSelect = USB\VID_061D&PID_C091
+ExcludeFromSelect = USB\VID_061D&PID_C092
+ExcludeFromSelect = USB\VID_061D&PID_C093
+ExcludeFromSelect = USB\VID_061D&PID_C0A0
+ExcludeFromSelect = USB\VID_061D&PID_C0A1
+ExcludeFromSelect = USB\VID_061D&PID_C0B0
+ExcludeFromSelect = USB\VID_061D&PID_C0B1
+ExcludeFromSelect = USB\VID_061D&PID_C0B2
+ExcludeFromSelect = USB\VID_061D&PID_C0B3
+
+;------------------------------------------------------------------------
+; Files sections
+
+[SourceDisksNames]
+1 = %DiskName%,,,""
+
+[SourceDisksFiles]
+serqtusb.vxd = 1,,
+qtusbcom.dll = 1,,
+qtusbcom.sys = 1,,
+qtwdmlib.sys = 1,,
+qtucompt.sys = 1,,
+qtucombx.sys = 1,,
+qtucompp.dll = 1,,
+qtucomco.dll = 1,,
+cocpyinf.dll = 1,,
+
+;Windows 98   --- All files go to the system directory (11).
+;Windows 2000 --- DLLs go to the system directory (11).
+;                 Drivers go to the system32\drivers directory (12).
+[DestinationDirs]
+DefaultDestDir      = 12
+DriverFiles         = 11
+DLLFiles            = 11
+DLLFilesNT          = 11
+ClassDLLFilesNT     = 11
+CoCopyINF.CopyFiles = 11
+
+[DriverFiles]
+qtusbcom.sys
+serqtusb.vxd
+
+[DLLFiles]
+qtusbcom.dll
+
+[DriverFilesNT]
+qtucombx.sys
+qtucompt.sys
+qtwdmlib.sys
+
+[DLLFilesNT]
+qtucompp.dll
+
+[ClassDLLFilesNT]
+qtucomco.dll
+
+;************************************************************************
+; START Windows 98 Install
+
+[USBToSerial]
+CopyFiles=DriverFiles,DLLFiles
+AddReg=USBToSerial.Reg
+
+[USBToSerial.Reg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,qtusbcom.sys
+
+; END Windows 98 Install
+
+
+;************************************************************************
+; START Windows 2000 Install
+
+[USBToSerial.NT]
+CopyFiles=DriverFilesNT,DLLFilesNT
+AddReg=USBToSerial.NT.AddReg
+CopyInf = QTUSBPT2.INF
+
+[USBToSerial.NT.CoInstallers]
+AddReg = CoCopyINF.AddReg
+CopyFiles= CoCopyINF.CopyFiles
+
+[USBToSerial.NT.AddReg]
+HKR,,EnumPropPages32,,"qtucompp.dll,USBBoxPropPageProvider"
+
+;The line below can be used to force any 1-port, 2-port or 4-port
+; device to install COM ports starting at the number specified
+; at the end of the line.   If you wish to force the use of COM1
+; or COM2, the ports must be disabled in the BIOS before plugging
+; in the device.  Don't use this with 8-port or 16-port devices,
+; or undesirable results will occur.  Don't install more than one
+; device, or undesirable results will occur.
+;Remove the leading semi-colon to activate this feature.
+;HKR,,OverrideFirstComPortNumber,0x00010001,3  ;start at COM3
+
+
+[USBToSerial.NT.HW]
+AddReg=USBToSerial.NT.HW.AddReg
+[USBToSerial.NT.HW.AddReg]
+HKR,,PreventSuspend,0x00010001,1       ; Aids the SERENUM process.
+
+
+;------------------------------
+; Windows 2000 Coinstaller section
+
+[USBToSerial.NT.CoInstallers]
+CopyFiles=ClassDLLFilesNT
+AddReg=USBToSerial.NT.CoInst.AddReg
+
+[USBToSerial.NT.CoInst.AddReg]
+HKR,,CoInstallers32,0x00010000,"qtucomco.dll,USBBoxCoInstaller"
+
+
+;------------------------------------------------------------------------
+; CopyINF DLL coinstaller section - needed for Win2000 support of CopyINF.
+;
+[CoCopyINF.AddReg]
+HKR,,CoInstallers32,0x10000,"cocpyinf.DLL,CoCopyINF"
+
+[CoCopyINF.CopyFiles]
+cocpyinf.dll,,,0x10
+
+
+;------------------------------
+; Windows 2000 Services section
+
+[USBToSerial.NT.Services]
+AddService = qtucombx, 0x00000002, USBToSerialBoxService
+
+[USBToSerialBoxService]
+DisplayName    = %qt2kusbb.SVCDESC%
+ServiceType    = 1              ; SERVICE_KERNEL_DRIVER
+StartType      = 3              ; SERVICE_DEMAND_START
+ErrorControl   = 1              ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\qtucombx.sys
+
+
+; END Windows 2000 Install
+;************************************************************************
+
+
+;------------------------------------------------------------------------
+; Strings section
+
+[Strings]
+Provider="Quatech, Incorporated"
+
+ClassDesc="Multi-port serial devices"
+DiskName="USB-To-Serial Adapters Drivers"
+qt2kusbb.SVCDESC="USB-to-Serial Box Driver"
+
+SSU100.DeviceDesc ="SSU-100 Single RS-232 Serial Port"
+SSU200.DeviceDesc ="SSU-200/300 Single RS-422/485 Serial Port"
+DSU100.DeviceDesc ="DSU-100 Dual RS-232 Serial Ports"
+DSU200.DeviceDesc ="DSU-200/300 Dual RS-422/485 Serial Ports"
+QSU100.DeviceDesc ="QSU-100 Quad RS-232 Serial Ports"
+QSU200.DeviceDesc ="QSU-200/300 Quad RS-422/485 Serial Ports"
+ESU100A.DeviceDesc="ESU-100 Eight RS-232 Serial Ports 1-4"
+ESU100B.DeviceDesc="ESU-100 Eight RS-232 Serial Ports 5-8"
+ESU200A.DeviceDesc="ESU-200/300 Eight RS-422/485 Serial Ports 1-4"
+ESU200B.DeviceDesc="ESU-200/300 Eight RS-422/485 Serial Ports 5-8"
+HSU100A.DeviceDesc="HSU-100 Sixteen RS-232 Serial Ports 01-04"
+HSU100B.DeviceDesc="HSU-100 Sixteen RS-232 Serial Ports 05-08"
+HSU100C.DeviceDesc="HSU-100 Sixteen RS-232 Serial Ports 09-12"
+HSU100D.DeviceDesc="HSU-100 Sixteen RS-232 Serial Ports 13-16"
+HSU200A.DeviceDesc="HSU-200/300 Sixteen RS-422/485 Serial Ports 01-04"
+HSU200B.DeviceDesc="HSU-200/300 Sixteen RS-422/485 Serial Ports 05-08"
+HSU200C.DeviceDesc="HSU-200/300 Sixteen RS-422/485 Serial Ports 09-12"
+HSU200D.DeviceDesc="HSU-200/300 Sixteen RS-422/485 Serial Ports 13-16"
+

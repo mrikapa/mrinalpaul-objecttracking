@@ -1,0 +1,399 @@
+Quatech FreedomUSB Driver Set for Windows 98/Me/2000/XP change history
+Last updated: April 2006
+
+ PLEASE REFER TO THE README.TXT FILE FOR IMPORTANT INFORMATION CONCERNING
+ CHANGES TO THE FREEDOMUSB PRODUCT LINE MADE IN MARCH 2003.
+
+====================================================================================================
+
+Release 5.90
+
+* Fixed a problem with write request processing that caused a write to
+  be lost on rare occasions.
+  
+* Fixed a crash that occasionally occurred when a write request was
+  issued by an application with a timeout value greater than zero but
+  less than the resolution of a Windows timer tick (about 10ms).
+  
+* Added a retry workaround for a USB chipset bug that caused data returned
+  from the device to be discarded on rare occasions.
+  
+* Added an option to the INF file for forcing the first COMx portname.
+  Please refer to the comments in QTUSBBX2.INF for details.  This is
+  an unsupported feature supplied as-is.  Note that if you edit the INF to 
+  enable this option, you will break the WHQL signature and you will 
+  receive unsigned driver warnings from Windows when you install the device.
+  
+* This release is digitally signed by WHQL for smooth installation.
+
+--------------------------------------------------------------------------------------------------
+Release 5.80
+
+* Added support for standby and hibernation.  Any serial ports which are
+  open when the system is powered down should be idle in order to prevent
+  loss of data.
+
+* This release is digitally signed by WHQL for smooth installation.
+
+--------------------------------------------------------------------------------------------------
+Release 5.70
+
+* Improved the driver's ability to accurately track progress
+  of write (transmit) operations through the FreedomUSB device.
+  This requires firmware revision 4.10 or later on the FreedomUSB device!
+  (Windows 2000/XP drivers only.)
+
+* Added support for Ioctl SERIAL_PURGE_TXCLEAR to flush the transmit
+  path all the way through the FreedomUSB device's internal buffers.
+  (Windows 2000/XP drivers only.)
+
+--------------------------------------------------------------------------------------------------
+Release 5.60
+
+* Tweaked timing on IOCTL_SERIAL_GET_MODEMSTATUS to fix a problem with
+  dropped dialup connections over external modems.
+  (Windows 2000/XP drivers only.)
+
+--------------------------------------------------------------------------------------------------
+
+Release 5.50
+
+* Fixed a problem where write requests would sometimes get lost
+  when a condition existed that prevented transmit operations from
+  starting, e.g. XOFF received.  This typically manifested itself
+  in difficulty closing the application that issued the write requests.
+
+* Real-time event tracing capability has been added to these drivers.
+  This will allow users to gather information about hard-to-reproduce
+  problems on their own computers and send highly-detailed traces to
+  Quatech technical support for analysis.
+
+* Added an item called USB Error Timer to the Device Manager property
+  sheet.  This value is used to "tweak" the driver's tolerance of errors
+  reported by the Windows USB software stack.
+
+  The sudden disconnect workaround in Release 5.40 caused problems for
+  a small number of users who reported that the USB device seemed to be
+  working fine and then suddenly "disappeared."   Release 5.40 was very
+  aggressive in watching for errors coming from the Windows USB software
+  stack.  The condition we worked around was a blue screen in the Windows
+  USB code that occurred after the cable was disconnected but before our
+  driver was notified of the disconnect.
+
+  USB ERROR TIMER IS MEANT TO BE ADJUSTED ONLY UNDER THE ADVICE
+  OF QUATECH TECHNICAL SUPPORT!  Do not change it unless you are
+  having "disappearing" problems and you consult with us first!
+
+* Added an item called Tx Load Count to the Device Manager property
+  sheet.  This value is used to "tweak" the number of bytes worth of
+  serial data that the device firmware writes into the UART at one time.
+  Changing this setting make be useful for applications that require
+  very fast response to transmit flow control, such as CNC dripfeeding.
+  Please note that lowering this value will impact throughput capabilities
+  at high baud rates.  Nearly all users should leave this setting at
+  its default value.
+
+--------------------------------------------------------------------------------------------------
+
+Release 5.40
+
+* Workaround for blue screen in the Windows USB stack after sudden
+  disconnect of the USB cable from the device.
+  (Windows 2000/XP drivers only.)
+
+* Fixed a bug in handling some RTS and XON/XOFF control modes.
+  (Windows 2000/XP drivers only.)
+
+--------------------------------------------------------------------------------------------------
+
+Release 5.31
+
+* Minor timing change for modem plug-and-play to work around problems
+  with higher-numbered ports enumerating properly on ESU/HSU boxes.
+  (Windows 2000/XP drivers only.)
+
+--------------------------------------------------------------------------------------------------
+
+Release 5.30
+
+* Added Windows 2000 and Windows XP support for Plug-and-Play detection
+  of certain devices, such as external modems, attached to FreedomUSB
+  serial ports.  This support uses the built-in SERENUM service and works
+  with devices conforming to the Plug and Play External COM  Device
+  Specification.   In general, if it works on a built-in serial port,
+  it should work with a FreedomUSB serial port.
+  (Windows 2000/XP drivers only.)
+
+--------------------------------------------------------------------------------------------------
+
+
+Release 5.20
+
+* Added necessary device driver functions to support customer field updating
+  of FreedomUSB firmware (the software that runs inside the FreedomUSB box).
+
+* The FreedomUSB firmware revision level is displayed on the Advanced Options
+  page of the Device Manager properties sheets for the box (Windows 2000/XP)
+  or for any of the serial ports (Windows 98/Me).
+
+* The "clocks" option (RCLK/XCLK to AUXIN/AUXOUT) for RS-422/485 connector
+  pinout configuration in the Device Manager property sheet has been removed.
+
+* Robustness improvement for cancelled USB transfers.
+  (Windows 2000/XP drivers only.)
+
+* Fixed Windows XP Driver Verifier bug detected for IRP_MJ_SYSTEM_CONTROL.
+  (Windows 2000/XP drivers only.)
+
+* Fixed bug in flow control handling when an external device is asserting
+  flow control before the serial port is opened.  Improved how modem status
+  information is handled at port open and after flow control settings changes.
+  (Windows 2000/XP drivers only.)
+
+* Fixed a rare install bug where the wizard complains about a name length.
+  (Windows 2000/XP drivers only.)
+
+* If no error replacement character is defined by the application, characters
+  received with parity errors will now be passed through to the application
+  as they should be.  (Windows 2000/XP drivers only.)
+
+* Improvements have been made in the handling of software flow control when
+  the IOCTLs dealing with forcing XOFF and XON states are involved.
+
+--------------------------------------------------------------------------------------------------
+
+Release 5.10
+
+* No functional changes.  This release affects only cosmetic items in the
+  Device Manager properties pages.
+
+--------------------------------------------------------------------------------------------------
+
+Release 5.00
+
+* PLEASE REFER TO THE README.TXT FILE FOR IMPORTANT INFORMATION CONCERNING
+  CHANGES TO THE FREEDOMUSB PRODUCT LINE MADE IN MARCH 2003.
+
+* Added support for new USB product IDs associated with revised FreedomUSB
+  products.  The new products contain resident firmware and no longer use
+  a firmware bootloader driver.  The "qtbt????.sys" driver files have been
+  deleted from the fileset.
+
+* From Release 5.00 onwards, only the newer FreedomUSB devices will be
+  supported.  There is a separate package of Release 4.20 for the older
+  devices using a bootloader driver.
+
+--------------------------------------------------------------------------------------------------
+
+Release 4.20
+
+* Fixed firmware bug that was causing garbage characters to appear inter-
+  mittently on data transfers.
+
+* Corrected problem with RS-422/485 connector setup on the advanced options
+  property page.  "Modem Control" and "All Loopback" were transposed.
+
+* Deleted the controls for "prebuffer trigger level" and "disable powerdown"
+  from the advanced options property page.  Customers who had changed the
+  "disable powerdown" setting in the past can uninstall and reinstall their
+  Quatech USB-to-Serial device to revert to default if they so choose.
+  The "prebuffer trigger level" setting is now selected automatically by
+  the device drivers for optimal performance.
+
+* Various stability enhancements (Windows 2000/XP drivers only).
+
+--------------------------------------------------------------------------------------------------
+
+Release 4.11
+
+* Adjusted time delay for ATC mode.  It is now functional for baud rates
+  in the range of 1200 bps to 460800 bps.  After the transmit prebuffer
+  is emptied, there is a waiting period before the transmitter is disabled
+  and the receiver is enabled to allow time for the UART FIFO to empty.
+  Depending upon how many characters are remaining in the UART FIFO, this
+  will occur anywhere from immediately after the last character (if the
+  FIFO is full) to:
+
+            160 / (baud rate in bps)
+
+  if the FIFO is empty.
+
+--------------------------------------------------------------------------------------------------
+
+Release 4.10
+
+* Major streamlining of wait processing on Windows 2000/XP to
+  fix timing-related blue screen related to waits on events.
+
+* Suppressed a handful of debug messages that were issued to a
+  debug terminal in the production build on Windows 2000/XP.
+
+--------------------------------------------------------------------------------------------------
+Release 4.04
+
+* Fixed minor issue with ATC checkbox in property sheet on Windows 2000.
+
+* Fixed ATC mode.  It is now functional for baud rates in the range of
+  2400 bps to 115200 bps.  After transmit buffers are emptied, there is a
+  waiting period before the transmitter is disabled and the receiver is
+  enabled.  This period is approximately equal to:
+
+           20.5 us + 3.3 us * (baud rate divisor/rate register)
+
+* Fixed timing-related problem that caused a crash on Windows 2000/XP.
+
+--------------------------------------------------------------------------------------------------
+Release 4.03
+
+* There are no changes to the Windows 98/Me software in this release.
+
+* Fixed crash under Windows NT4 or Windows 2000 involving applications
+  making frequent DeviceIoControl calls for IOCTL_SERIAL_GET_COMMSTATUS
+  during a surprise removal of the USB cable.
+
+* Worked around a new problem with the Visual Basic MSCOMM control under
+  Windows 2000 that was exposed by the Release 4.01 stability enhancements.
+  The symptom is an "error 8020" returned for the control's Input operation.
+  This problem appears to be a bug in the MSCOMM control itself.  The
+  workaround in this driver release passes the test cases where we saw
+  problems.
+
+* Adjusted Windows 2000 write timeout behavior to better mimic builtin ports
+  in unusual cases where an application specifies a timeout period too small
+  to allow for the entire write to complete.  This applies mainly to programs
+  sending large blocks of data at very low baud rates.
+  Previous releases of this driver strictly honored an application's write
+  timeout setting by cancelling the portion of a write that was pending in
+  the Windows USB stack.  This tended to result in inaccurate "bytes sent"
+  counts reported to the application, as the USB stack did not report partial
+  transfer counts.
+  This release estimates how long it will take the device to consume any data
+  pending in the Windows USB stack and extends the timeout period accordingly
+  in an effort to avoid discarding data.
+
+
+--------------------------------------------------------------------------------------------------
+Release 4.01
+
+* Further enhancements for serial printer timeouts under Windows 2000.
+
+* Fixed problem of occasional Windows 2000 crash when the USB cable is
+  unplugged during active transfer of data over the serial ports.
+  (This is called a surprise removal.)
+
+* If a serial port was open and a surprise removal occurred, previous
+  versions of the driver required a reboot of Windows 2000 before the port
+  could be used again after the USB cable was reattached.  This has been
+  corrected.  Any applications holding open handles for the port(s) must
+  close those handles before the USB cable is reattached.
+
+* Added a new option to disable powerdown of the USB device.
+  By default, SSU, DSU and QSU devices are powered down and placed in a
+  USB "suspend" state when none of their serial ports are open.  If the new
+  "Disable Powerdown" checkbox on the "Advanced Options" property sheet is
+  checked, the USB device will remain powered at all times.  Choosing this
+  option can help the USB device respond more crisply when a serial port
+  is opened on a link where data transfer is already active.
+
+--------------------------------------------------------------------------------------------------
+Release 4.00
+
+* Enhanced handling of application-specified events.
+
+* Fixed problem using Visual Basic COMM control.
+
+* Fixed problem using serial printers.
+
+* Closed a window where small amounts of received data could be lost.
+
+* Win32 SetCommState() function returned error 0x87 when the DCB's
+  XonChar==XoffChar.  While technically an error (see the SDK docs),
+  the standard Windows serial driver didn't flag it as such.  We
+  added compatibility with this behavior.
+
+--------------------------------------------------------------------------------------------------
+Release 3.22
+
+* Fixed situation where device hangs when there is a data overflow.
+
+--------------------------------------------------------------------------------------------------
+Release 3.21
+
+* This fix eliminates initial framing errors when the device is connected to a live data
+stream.  This was causing problems in certain applications (e.g.  Hyperterminal) that do not
+handle an error in this situation properly.
+
+--------------------------------------------------------------------------------------------------
+Release 3.20
+
+* Streamlined code in firmware to improve receive performance.
+
+* Added wait loop in ATC mode to ensure that transmitter is empty before it is disabled.
+
+* Added support for ESU/HSU-100/200/300.
+
+--------------------------------------------------------------------------------------------------
+Release 3.10
+
+* Improves performance with hardware flow control.
+
+* Problem with escape sequence handling fixed.
+
+--------------------------------------------------------------------------------------------------
+Release 3.00
+
+* Corrected situation where device would send an XON character if software flow control
+was enabled even if a previous XOFF had not been sent.
+
+* Changed disconnect loop during re-enumeration to two consecutive disconnects.
+
+* Changed to unique PIDs for each USB-to-Serial Adapter.  As a result, each USB-to-Serial Adapter
+now has a unique boot loader driver file (qtbt*.sys).
+
+* Added support for Windows 2000.
+
+* Made code changes so that UARTs and flow control status would be properly initialized under
+Windows 2000.
+
+--------------------------------------------------------------------------------------------------
+Release 2.21.21
+
+* Corrected configuration descriptor error in the firmware that was preventing
+DSU-200/300 and QSU-200/300 from functioning.
+
+--------------------------------------------------------------------------------------------------
+Release 2.20.20
+
+* Added ATC mode capability (untested).
+
+* Added support for SSU-100.
+
+* Added the ability to set prebuffer trigger levels.
+
+* Added capability to detect and use 16750 UARTs.
+
+* Modified flow control behavior to improve 230K performance.
+
+* Fixed multi-port transmit problem.
+
+--------------------------------------------------------------------------------------------------
+Release 2.00.00
+
+* Added support for software flow control.
+
+--------------------------------------------------------------------------------------------------
+Release 1.00.01
+
+* Fixed condition where box would overflow when receiving with flow control on.
+
+* Previous revision exceeded code space of EZ-USB.  This results in device failing after download
+of firmware.
+
+* Fixed bug that prevented ports other than port 0 from working properly.
+
+* Fixed bug that made port 1 behave intermittently.
+
+--------------------------------------------------------------------------------------------------
+Release 1.00
+
+* First driver release.
