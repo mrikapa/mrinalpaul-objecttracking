@@ -1,0 +1,54 @@
+;	USB2SER.INF - INF file for USB-to-Serial Device
+;	Copyright (C) 1999, ATEN INTERNATIONAL CO., LTD
+;
+;	
+
+[Version]
+Signature="$CHICAGO$"
+Class=USB
+provider=%PROLIFIC%
+LayoutFile=layout.inf
+
+[Manufacturer]
+%MfgName%=Prolific
+
+[Prolific]
+%USB\VID_0557&PID_2008.DeviceDesc%=USB2SER.Dev, USB\VID_0557&PID_2008
+%USB\VID_067B&PID_2303.DeviceDesc%=USB2SER.Dev, USB\VID_067B&PID_2303
+
+[PreCopySection]
+HKR,,NoSetupUI,,1
+
+[DestinationDirs]
+USB2SER.Files.Ext = 11
+USB2SER.Files.Inf = 10,INF
+
+[USB2SER.Dev]
+CopyFiles=USB2SER.Files.Ext, USB2SER.Files.Inf
+AddReg=USB2SER.AddReg
+
+; [USB2SER.AddService]
+; DisplayName    = %USB2SER.SvcDesc%
+; ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+; StartType      = 2                  ; SERVICE_AUTO_START
+; ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+; ServiceBinary  = %10%\System32\Drivers\USB2SER.sys
+; LoadOrderGroup = Base
+
+[USB2SER.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,USB2SER.sys
+
+[USB2SER.Files.Ext]
+USB2SER.sys
+SERPORT.vxd
+
+[USB2SER.Files.Inf]
+USB2SER.inf
+SERPORT.inf
+
+[Strings]
+PROLIFIC="ATEN International Co., Ltd"
+MfgName="ATEN International Co., Ltd"
+USB\VID_0557&PID_2008.DeviceDesc="ATEN USB to Serial Cable"
+USB\VID_067B&PID_2303.DeviceDesc="ATEN USB to Serial Cable"
