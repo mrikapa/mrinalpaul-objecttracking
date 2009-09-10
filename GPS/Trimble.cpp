@@ -1141,7 +1141,7 @@ int main( int argc, char **argv )
 		// set DCB
 		memset(&dcb,0,sizeof(dcb));
 		dcb.DCBlength	= sizeof(dcb);
-		dcb.BaudRate	= 4800;
+		dcb.BaudRate	= 38400;
 		dcb.fBinary		= 1;
 		dcb.fDtrControl = DTR_CONTROL_ENABLE;
 		dcb.fRtsControl = RTS_CONTROL_ENABLE;
@@ -1161,13 +1161,15 @@ int main( int argc, char **argv )
 
 
 		// initialize the motor controller
-		InitSerial();
+//		InitSerial();
 
 		// initialize our log file
-		fp=fopen("c:\\waypoint_log.txt", "a");
+//		fp=fopen("c:\\waypoint_log.txt", "a");
 
 		// pause for five seconds to let the gps get its current location
-		Sleep(5000);
+//		Sleep(5000);
+
+		printf("All done...\n");
 
 	    // start terminal
 		terminal(h);
@@ -1193,7 +1195,7 @@ int InitSerial ()
 	// motor controller
 	//
 	///////////////////////////////////////////////////////////////////////////
-
+/**
 	string comPort = "COM5";
 	hSerialMC = CreateFile(comPort.c_str(), 
 		GENERIC_READ | GENERIC_WRITE, 
@@ -1250,7 +1252,7 @@ int InitSerial ()
 
 	// send a reset string
 	sendResetString ();
-
+**/
 	return 0;
 
 }
@@ -1325,13 +1327,13 @@ int commandMovement (int motorSpeedLeft, int motorSpeedRight)
 //	serialMotorController.Write(&cmdLeft, sizeof(cmdLeft), 0, 0, 0);
 //	serialMotorController.Write(&cmdRight, sizeof(cmdRight), 0, 0, 0);
 
-	if (!WriteFile(hSerialMC, &cmdLeft, sizeof(cmdLeft), &dwBytesWritten, NULL)) {
-		// error writing
-	}
+//	if (!WriteFile(hSerialMC, &cmdLeft, sizeof(cmdLeft), &dwBytesWritten, NULL)) {
+//		// error writing
+//	}
 
-	if (!WriteFile(hSerialMC, &cmdRight, sizeof(cmdRight), &dwBytesWritten, NULL)) {
-		// error writing
-	}
+//	if (!WriteFile(hSerialMC, &cmdRight, sizeof(cmdRight), &dwBytesWritten, NULL)) {
+//		// error writing
+//	}
 
 
 	return 0;
