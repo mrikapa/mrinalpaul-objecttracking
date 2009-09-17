@@ -11,5 +11,56 @@ Build Log
 </h3>
 </pre></table><table width=100% bgcolor=#DFDFE5><tr><td><font face=arial size=+2>
 Command Lines
-</font></table><table width=* cellspacing=0 cellpadding=0><tr><td width=0 bgcolor=#EDEDF5>&nbsp;</td><td width=0 bgcolor=#FFFFFF>&nbsp;</td><td width=*><pre>Joystick - up-to-date.</pre></table><table   width=100% height=20 bgcolor=#CFCFE5><tr><td><font face=arial size=+2>
+</font></table><table width=* cellspacing=0 cellpadding=0><tr><td width=0 bgcolor=#EDEDF5>&nbsp;</td><td width=0 bgcolor=#FFFFFF>&nbsp;</td><td width=*><pre>Creating temporary file "c:\Documents and Settings\Shawn\My Documents\Wayne State\Igvc\Joystick_Driving\Debug\RSP000001.rsp" with contents
+[
+/Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /Gm /EHsc /RTC1 /MDd /Fo"Debug/" /Fd"Debug/vc70.pdb" /W3 /c /Wp64 /ZI /TP
+".\Serial.cpp"
+".\joystick.cpp"
+]
+Creating command line "cl.exe @"c:\Documents and Settings\Shawn\My Documents\Wayne State\Igvc\Joystick_Driving\Debug\RSP000001.rsp" /nologo"
+Creating command line "rc.exe /fo"Debug/joystick.res" ".\joystick.rc""
+Creating temporary file "c:\Documents and Settings\Shawn\My Documents\Wayne State\Igvc\Joystick_Driving\Debug\RSP000002.rsp" with contents
+[
+/OUT:"Debug/Joystick.exe" /INCREMENTAL /NOLOGO /DEBUG /PDB:"Debug/Joystick.pdb" /SUBSYSTEM:WINDOWS /MACHINE:X86 dxguid.lib dxerr9.lib dinput8.lib comctl32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib "\Program Files\Microsoft DirectX 9.0 SDK (February 2005)\Lib\x86\DxErr9.lib"
+".\Debug\joystick.obj"
+".\Debug\Serial.obj"
+".\Debug\joystick.res"
+]
+Creating command line "link.exe @"c:\Documents and Settings\Shawn\My Documents\Wayne State\Igvc\Joystick_Driving\Debug\RSP000002.rsp""
+</pre></table><table width=100% bgcolor=#DFDFE5><tr><td><font face=arial size=+2>
+Output Window
+</font></table><table width=* cellspacing=0 cellpadding=0><tr><td width=0 bgcolor=#EDEDF5>&nbsp;</td><td width=0 bgcolor=#FFFFFF>&nbsp;</td><td width=*><pre>Compiling...
+Serial.cpp
+c:\Documents and Settings\Shawn\My Documents\Wayne State\IGVC\Joystick_Driving\Serial.cpp(1010) : warning C4267: 'argument' : conversion from 'size_t' to 'DWORD', possible loss of data
+c:\Documents and Settings\Shawn\My Documents\Wayne State\IGVC\Joystick_Driving\Serial.cpp(1165) : warning C4267: 'argument' : conversion from 'size_t' to 'DWORD', possible loss of data
+joystick.cpp
+c:\Program Files\Microsoft Visual Studio .NET 2003\Vc7\include\cstdio(25) : warning C4995: 'gets': name was marked as #pragma deprecated
+c:\Program Files\Microsoft Visual Studio .NET 2003\Vc7\include\cstdio(29) : warning C4995: 'sprintf': name was marked as #pragma deprecated
+c:\Program Files\Microsoft Visual Studio .NET 2003\Vc7\include\cstdio(32) : warning C4995: 'vsprintf': name was marked as #pragma deprecated
+c:\Program Files\Microsoft Visual Studio .NET 2003\Vc7\include\cstring(19) : warning C4995: 'strcat': name was marked as #pragma deprecated
+c:\Program Files\Microsoft Visual Studio .NET 2003\Vc7\include\cstring(20) : warning C4995: 'strcpy': name was marked as #pragma deprecated
+c:\Program Files\Microsoft Visual Studio .NET 2003\Vc7\include\cwchar(24) : warning C4995: 'swprintf': name was marked as #pragma deprecated
+c:\Program Files\Microsoft Visual Studio .NET 2003\Vc7\include\cwchar(25) : warning C4995: 'vswprintf': name was marked as #pragma deprecated
+c:\Program Files\Microsoft Visual Studio .NET 2003\Vc7\include\cwchar(27) : warning C4995: 'wcscat': name was marked as #pragma deprecated
+c:\Program Files\Microsoft Visual Studio .NET 2003\Vc7\include\cwchar(29) : warning C4995: 'wcscpy': name was marked as #pragma deprecated
+c:\Program Files\Microsoft Visual Studio .NET 2003\Vc7\include\xlocnum(913) : warning C4995: 'sprintf': name was marked as #pragma deprecated
+c:\Program Files\Microsoft Visual Studio .NET 2003\Vc7\include\xlocnum(922) : warning C4995: 'sprintf': name was marked as #pragma deprecated
+c:\Program Files\Microsoft Visual Studio .NET 2003\Vc7\include\xlocnum(932) : warning C4995: 'sprintf': name was marked as #pragma deprecated
+c:\Program Files\Microsoft Visual Studio .NET 2003\Vc7\include\xlocnum(941) : warning C4995: 'sprintf': name was marked as #pragma deprecated
+c:\Program Files\Microsoft Visual Studio .NET 2003\Vc7\include\xlocnum(982) : warning C4995: 'sprintf': name was marked as #pragma deprecated
+c:\Program Files\Microsoft Visual Studio .NET 2003\Vc7\include\xlocnum(1022) : warning C4995: 'sprintf': name was marked as #pragma deprecated
+c:\Program Files\Microsoft Visual Studio .NET 2003\Vc7\include\xlocnum(1031) : warning C4995: 'sprintf': name was marked as #pragma deprecated
+c:\Documents and Settings\Shawn\My Documents\Wayne State\IGVC\Joystick_Driving\joystick.cpp(681) : warning C4995: 'sprintf': name was marked as #pragma deprecated
+c:\Documents and Settings\Shawn\My Documents\Wayne State\IGVC\Joystick_Driving\joystick.cpp(683) : warning C4995: 'sprintf': name was marked as #pragma deprecated
+c:\Documents and Settings\Shawn\My Documents\Wayne State\IGVC\Joystick_Driving\joystick.cpp(687) : warning C4995: 'sprintf': name was marked as #pragma deprecated
+c:\Documents and Settings\Shawn\My Documents\Wayne State\IGVC\Joystick_Driving\joystick.cpp(689) : warning C4995: 'sprintf': name was marked as #pragma deprecated
+Generating Code...
+Compiling resources...
+Linking...
+LINK : LNK6004: Debug/Joystick.exe not found or not built by the last incremental link; performing full link
+</pre></table><table width=100% bgcolor=#DFDFE5><tr><td><font face=arial size=+2>
+Results
+</font></table><table width=* cellspacing=0 cellpadding=0><tr><td width=0 bgcolor=#EDEDF5>&nbsp;</td><td width=0 bgcolor=#FFFFFF>&nbsp;</td><td width=*><pre>
+Build log was saved at "file://c:\Documents and Settings\Shawn\My Documents\Wayne State\Igvc\Joystick_Driving\Debug\BuildLog.htm"
+Joystick - 0 error(s), 22 warning(s)</pre></table><table   width=100% height=20 bgcolor=#CFCFE5><tr><td><font face=arial size=+2>
 </font></table></body></html>
