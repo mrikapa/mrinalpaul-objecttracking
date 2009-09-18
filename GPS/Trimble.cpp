@@ -8,7 +8,8 @@
 #include <stdlib.h>
 #include <math.h>
 #include "SharedMemory.h"
-
+#include <iostream>
+#include <fstream>
 #include <string>
 using namespace std;
 
@@ -1015,6 +1016,8 @@ int main( int argc, char **argv )
 	// copy the name of the executable into a global variable
 	strcpy(exename,argv[0]);
 
+	int readFromGPS1FromFile2 = 2;
+
 /**
 	if (argc < 2) {
 
@@ -1115,68 +1118,100 @@ int main( int argc, char **argv )
 	strcpy(logname, "c:\\gps.txt");
 	echo = 0;
 
-	// done with error checking, now we set up the serial com stuff...
+	cout << "Read from GPS = 1, Read from file = 2....\n\n==> ";
+	cin >> readFromGPS1FromFile2;
 
-	// open port for overlapped I/O
-	HANDLE h = CreateFile("COM1",
-				GENERIC_READ|GENERIC_WRITE,
-                0,NULL,
-                OPEN_EXISTING,FILE_FLAG_OVERLAPPED,NULL);
+	if (readFromGPS1FromFile2 == 1) {
 
-	if (h == INVALID_HANDLE_VALUE) {
+		// done with error checking, now we set up the serial com stuff...
 
-		printError("E012_Failed to open port");
-		return 0;
+		// open port for overlapped I/O
+		HANDLE h = CreateFile("COM1",
+					GENERIC_READ|GENERIC_WRITE,
+				    0,NULL,
+					OPEN_EXISTING,FILE_FLAG_OVERLAPPED,NULL);
+
+		if (h == INVALID_HANDLE_VALUE) {
+
+			printError("E012_Failed to open port");
+			return 0;
     
-	} else {
+		} else {
          
-		// set timeouts
-		COMMTIMEOUTS cto = { 2, 1, 1, 0, 0 };
-		DCB dcb;
+			// set timeouts
+			COMMTIMEOUTS cto = { 2, 1, 1, 0, 0 };
+			DCB dcb;
          
-		if(!SetCommTimeouts(h,&cto)) {
-			printError("E013_SetCommTimeouts failed");
-		}
+			if(!SetCommTimeouts(h,&cto)) {
+				printError("E013_SetCommTimeouts failed");
+			}
 
-		// set DCB
-		memset(&dcb,0,sizeof(dcb));
-		dcb.DCBlength	= sizeof(dcb);
-		dcb.BaudRate	= 38400;
-		dcb.fBinary		= 1;
-		dcb.fDtrControl = DTR_CONTROL_ENABLE;
-		dcb.fRtsControl = RTS_CONTROL_ENABLE;
-		dcb.Parity		= NOPARITY;
-		dcb.StopBits	= ONESTOPBIT;
-		dcb.ByteSize	= 8;
+			// set DCB
+			memset(&dcb,0,sizeof(dcb));
+			dcb.DCBlength	= sizeof(dcb);
+			dcb.BaudRate	= 38400;
+			dcb.fBinary		= 1;
+			dcb.fDtrControl = DTR_CONTROL_ENABLE;
+			dcb.fRtsControl = RTS_CONTROL_ENABLE;
+			dcb.Parity		= NOPARITY;
+			dcb.StopBits	= ONESTOPBIT;
+			dcb.ByteSize	= 8;
          
-		// ascii
-		displayMode = 1;
+			// ascii
+			displayMode = 1;
 
-		// empty seperator
-		separator = 3;
+			// empty seperator
+			separator = 3;
 		 
-		if(!SetCommState(h,&dcb)) {
-			printError("E014_SetCommState failed");
+			if(!SetCommState(h,&dcb)) {
+				printError("E014_SetCommState failed");
+			}
+
+
+			// initialize the motor controller
+//			InitSerial();
+
+			// initialize our log file
+//			fp=fopen("c:\\waypoint_log.txt", "a");
+
+			// pause for five seconds to let the gps get its current location
+//			Sleep(5000);
+
+			printf("All done...\n");
+
+			// start terminal
+			terminal(h);
+			CloseHandle(h);
+
 		}
 
+	// read from file
+	} else {
+	
+		string fileName;
+		cout << "Filename?\n\n==> ";
+		cin >> fileName;
+		
+		ifstream gpsFile;
+		string line;
 
-		// initialize the motor controller
-//		InitSerial();
+		gpsFile.open(fileName.c_str());
 
-		// initialize our log file
-//		fp=fopen("c:\\waypoint_log.txt", "a");
+		if (gpsFile.is_open()) {
+    
+			while (!gpsFile.eof()) {
+				getline (gpsFile,line);
+				cout << line << endl;
+			}
+		
+			gpsFile.close();
 
-		// pause for five seconds to let the gps get its current location
-//		Sleep(5000);
+		}
 
-		printf("All done...\n");
-
-	    // start terminal
-		terminal(h);
-		CloseHandle(h);
-		return 0;
 	}
  
+
+	return 0;
 
 } // end main
 
